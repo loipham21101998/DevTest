@@ -1,0 +1,166 @@
+<style>
+   #customers {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  #customers td,
+  #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  #customers tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  #customers tr:hover {
+    background-color: #ddd;
+  }
+
+  #customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04aa6d;
+    color: white;
+  }
+  .button {
+    background-color: #4caf50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    margin: 2px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+  }
+   input[type=text],input[type=number],input[type=date] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+  input[type="submit"] {
+    width: 100%;
+    background-color: #4caf50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  input[type="submit"]:hover {
+    background-color: #45a049;
+  }
+
+  div {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+  }
+</style>
+
+<form method="post" [formGroup]="taskForm" (ngSubmit)="CreateTask()">
+  <!-- (ngSubmit)="" -->
+  <div>
+    <label >ParentId</label>
+    <input
+      type="text"
+      formControlName="ParentId"
+    />
+
+    <label > Label </label>
+    <input
+      type="text"
+      formControlName="Label"
+    />
+    <label > Name </label>
+    <input
+      type="text"
+      formControlName="Name"
+    />
+    <label > Type </label>
+    <input
+      type="number"
+      formControlName="Type"
+      min="0"
+    />
+
+    <label > StartDate </label>
+    <input
+      type="date"
+      formControlName="StartDate"
+    />
+
+    <label > EndDate </label>
+    <input
+      type="date"
+      formControlName="EndDate"
+    />
+
+    <label > Duration </label>
+    <input
+      type="text"
+      formControlName="Duration"
+    />
+    <label > Progress </label>
+    <input
+      type="text"
+      formControlName="Progress"
+    />
+
+    <label > IsUnscheduled:  </label>
+    <input
+      type="checkbox"
+      formControlName="IsUnscheduled"
+    />
+
+    <input type="submit" id="btnSubmit" value="Create" />
+  </div>
+</form>
+
+<table id="customers">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>ParentID</th>
+      <th>Label</th>
+      <th>Name</th>
+      <th>StartDate</th>
+      <th>EndDate</th>
+      <th>Duration</th>
+      <th>Progress</th>
+      <th>IsUnscheduled</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let tasks of tasks">
+      <td>{{ tasks?.Id }}</td>
+      <td>{{ tasks?.ParentId }}</td>
+      <td>{{ tasks?.Label }}</td>
+      <td>{{ tasks?.Name }}</td>
+      <td>{{ tasks?.StartDate }}</td>
+      <td>{{ tasks?.EndDate }}</td>
+      <td>{{ tasks?.Duration }}</td>
+      <td>{{ tasks?.Progress }}</td>
+      <td><input type="checkbox" checked="{{ tasks?.Progress }}"/></td>
+      <td>
+        <button class="button" >Edit</button>|
+        <button class="button">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+<gantt></gantt>

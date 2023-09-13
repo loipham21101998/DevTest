@@ -1,0 +1,119 @@
+<style>
+  #customers {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  #customers td,
+  #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  #customers tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  #customers tr:hover {
+    background-color: #ddd;
+  }
+
+  #customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04aa6d;
+    color: white;
+  }
+  .button {
+    background-color: #4caf50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+  }
+  input[type=text] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+  input[type="submit"] {
+    width: 100%;
+    background-color: #4caf50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  input[type="submit"]:hover {
+    background-color: #45a049;
+  }
+
+  div {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+  }
+</style>
+
+<form method="post" [formGroup]="staffForm" (ngSubmit)="CreateStaff(StaffID)">
+  <div>
+    <label for="fname">FullName</label>
+    <input
+      type="text"
+      id="fname"
+      formControlName="FullName"
+      placeholder="Your name.."
+    />
+
+    <label for="lname"> ShortName </label>
+    <input
+      type="text"
+      id="lname"
+      formControlName="ShortName"
+      placeholder="Your last name.."
+    />
+    <input type="submit" id="btnSubmit" value="{{ valueBtn }}" />
+  </div>
+
+  <!-- <label for="country">Country</label>
+  FullName: <input type="text" formControlName="FullName" />
+  ShortName : <input type="text" formControlName="ShortName" />
+  &nbsp; -->
+</form>
+<table id="customers">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>FullName</th>
+      <th>ShortName</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let staff of staffs">
+      <td>{{ staff?.Id }}</td>
+      <td>{{ staff?.FullName }}</td>
+      <td>{{ staff?.ShortName }}</td>
+      <td>
+        <button class="button" (click)="Edit(staff?.Id)">Edit</button>|<button
+          class="button"
+          (click)="Delete(staff?.Id)"
+        >
+          Delete
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
