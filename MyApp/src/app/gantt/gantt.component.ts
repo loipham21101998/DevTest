@@ -3,6 +3,7 @@ import { gantt, GanttStatic} from 'dhtmlx-gantt';
 import { TaskService } from '../service/task.service';
 import { Task } from '../entites/task.entity';
 import { Task1} from '../models/task';
+import { DatePipe } from '@angular/common';
 @Component({
   encapsulation: ViewEncapsulation.None,
     selector: 'gantt',
@@ -49,7 +50,8 @@ export class GanttComponent implements OnInit{
   tasks: Task[];
   private _gantt?: GanttStatic;
   constructor(
-    private taskService :TaskService
+    private taskService :TaskService,
+    private datePipe : DatePipe
   ){
 
   }
@@ -63,7 +65,7 @@ export class GanttComponent implements OnInit{
               this.tasks1 = {
                 id:this.tasks[i].Id,
                 text: this.tasks[i].Label.toString().trim(),
-                start_date: '13-09-2023',
+                start_date: this.datePipe.transform(this.tasks[i].StartDate,'yyyy-MM-dd')?.toString(),
                 duration: Number(this.tasks[i].Duration.toString().trim()),
                 progress: Number(this.tasks[i].Progress.toString().trim()),
                 parent: this.tasks[i].ParentId
@@ -71,12 +73,14 @@ export class GanttComponent implements OnInit{
               this.task2.push(this.tasks1);
             }
             this.tasks3 = {
-                tasks : this.task2,
-                links: [{ id: 2, source: 1, target: 2, type: "0" }],
+                data : this.task2,
+                links: [{ id:1, source: 1, target: 2, type: "0" }],
             }
-            //gantt.config.date_format = '%Y-%m-%d %H:%i';
+            console.log( this.tasks3);
+            gantt.config.date_format = '%Y-%m-%d %H:%i';
             gantt.init(this.ganttContainer.nativeElement);
             gantt.parse(this.tasks3);
+
         },
         err => {
           console.log(err)

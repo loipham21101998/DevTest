@@ -10,7 +10,8 @@ import { GanttComponent } from './gantt/gantt.component';
 import { HttpClientModule } from '@angular/common/http';
 import { StaffComponent } from './staff/staff.component';
 import { TaskComponent } from './task/task.component';
-
+import { NgSelectModule } from '@ng-select/ng-select';
+import { DatePipe } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,9 +25,10 @@ import { TaskComponent } from './task/task.component';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgSelectModule
   ],
-  providers: [StaffService,TaskService],
+  providers: [StaffService,TaskService,DatePipe],
   bootstrap: [HomeComponent]
 })
 export class AppModule { }

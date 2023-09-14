@@ -37,7 +37,7 @@
     display: inline-block;
     font-size: 16px;
   }
-   input[type=text],input[type=number],input[type=date] {
+   input[type=text],input[type=number],input[type=date] , #select{
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -68,7 +68,7 @@
   }
 </style>
 
-<form method="post" [formGroup]="taskForm" (ngSubmit)="CreateTask()">
+<form method="post" [formGroup]="taskForm" (ngSubmit)="CreateTask(TaskID)">
   <!-- (ngSubmit)="" -->
   <div>
     <label >ParentId</label>
@@ -123,9 +123,22 @@
       formControlName="IsUnscheduled"
     />
 
-    <input type="submit" id="btnSubmit" value="Create" />
+    <input type="submit" id="btnSubmit" value="{{ valueBtn }}" />
   </div>
 </form>
+
+<ng-select [items]="tasksAll"
+           bindLabel="Label"
+           bindValue="Id"
+           [(ngModel)]="selectedTask"
+           id="select"
+           [clearSearchOnAdd] = "true"
+           (change) = "selectChange()"
+           (clear) ="selectChange(0)"
+
+           >
+</ng-select>
+
 
 <table id="customers">
   <thead>
@@ -152,10 +165,12 @@
       <td>{{ tasks?.EndDate }}</td>
       <td>{{ tasks?.Duration }}</td>
       <td>{{ tasks?.Progress }}</td>
-      <td><input type="checkbox" checked="{{ tasks?.Progress }}"/></td>
+
+      <td *ngIf=" tasks?.IsUnscheduled "><input type="checkbox" checked/></td>
+      <td *ngIf="!tasks?.IsUnscheduled  "><input type="checkbox" /></td>
       <td>
-        <button class="button" >Edit</button>|
-        <button class="button">Delete</button>
+        <button class="button"(click)="Edit(tasks?.Id)" >Edit</button>|
+        <button class="button" (click)="Delete(tasks?.Id)">Delete</button>
       </td>
     </tr>
   </tbody>

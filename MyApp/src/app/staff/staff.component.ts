@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Staff } from '../entites/staff.entity';
 import { StaffService } from '../service/staff.service';
+import { NgSelectConfig } from '@ng-select/ng-select';
+import { NumberSymbol } from '@angular/common';
 @Component({
   selector: 'app-staff',
   templateUrl: './staff.component.html',
@@ -10,16 +12,24 @@ import { StaffService } from '../service/staff.service';
 })
 export class StaffComponent implements OnInit{
   staffForm : FormGroup;
+  staffsAll : Staff[];
   staffs : Staff[];
   staff: Staff;
   StaffID :number;
   valueBtn : string;
+  selectedStaff :number;
   constructor(
     private emlementRef : ElementRef,
     private formBuilder : FormBuilder,
     private router: Router,
     private staffService: StaffService,
-  ){}
+    private config: NgSelectConfig
+  ){
+     this.config.notFoundText = 'Custom not found';
+      this.config.appendTo = 'body';
+      this.config.bindValue = 'value';
+
+  }
   ngOnInit(): void {
     this.staffForm = this.formBuilder.group({
       Id:'',
@@ -27,19 +37,36 @@ export class StaffComponent implements OnInit{
       ShortName: '',
       StaffInTask :[]
     });
+    this.GetStaff();
 
-    this.staffService.GetAllStaff().then(
-      res => {
-      debugger;
-        this.staffs = res as Staff[];
-      },
-      err => {
-        debugger;
-        console.log(err);
-      }
-    );
     this.valueBtn = "Create";
     this.StaffID = 0
+  }
+
+  GetStaff(id:number = null){
+    if(id == null){
+      this.staffService.GetAllStaff().then(
+        res => {
+          this.staffsAll = res as Staff[];
+          this.staffs = this.staffsAll ;
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    }else{
+      this.staffService.FindStaffByID(id).then(
+        res => {
+          this.staff = res as Staff;
+          this.staffs = [];
+          this.staffs.push(this.staff);
+        },
+        err=>{
+          console.log(err)
+        }
+      )
+    }
+
   }
   CreateStaff(id:number){
     let staff :Staff = this.staffForm.value;
@@ -106,7 +133,6 @@ export class StaffComponent implements OnInit{
         this.StaffID = this.staff.Id;
         this.staffService.GetAllStaff().then(
           res => {
-          debugger;
             this.staffs = res as Staff[];
           },
           err => {
@@ -147,5 +173,21 @@ export class StaffComponent implements OnInit{
         console.log(err)
       }
     )
+  }
+
+  selectChange(i :number = null){
+    if(i != null){
+      this.GetStaff();
+    }else{
+      if(this.selectedStaff > 0) {
+        if(this.staffs.length ==1){
+          this.staffs= this.staffsAll;
+        }
+        this.staffs= this.staffs.filter(x=> x.Id ==this.selectedStaff );
+        //this.GetStaff(this.selectedStaff);
+      }
+    }
+
+
   }
 }

@@ -28,6 +28,18 @@ export class TaskService
     return await lastValueFrom(value) ;
   }
 
+  async UpdateTask(id:number,task:Task){
+    let value = this.httpClient.put(this.BASE_URL+"Task/"+id,task);
+    return await lastValueFrom(value) ;
+  }
 
+  async FindTaskById(id:number){
+    let value = this.httpClient.get(this.BASE_URL+"Task/"+id);
+    return await lastValueFrom(value) ;
+  }
 
+  async DeleteTaskById(id:number){
+    let value = this.httpClient.delete(this.BASE_URL+"DeleteTask/"+id);
+    return await lastValueFrom(value) ;
+  }
 }

@@ -17,7 +17,7 @@ namespace API.Services
         dynamic GetAllTask1();
         Task GetTask(int id);
         int CreateTask(Task createTaskDto);
-        bool EditTask(int id, DetailTaskDto detailTaskDto);
+        bool EditTask(int id, Task detailTaskDto);
         bool DeleteTask(int id);
     }
     public class TaskService : ITaskService
@@ -49,7 +49,7 @@ namespace API.Services
             return _db.SaveChanges() > 0;
         }
 
-        public bool EditTask(int id, DetailTaskDto detailTaskDto)
+        public bool EditTask(int id, Task detailTaskDto)
         {
             var task = _db.Tasks.FirstOrDefault(x => x.Id == id);
             if (task == null)
@@ -58,7 +58,17 @@ namespace API.Services
             }
             else
             {
-                AutoMapper.Mapper.Map(detailTaskDto, task);
+                task.Label = detailTaskDto.Label;
+                task.StartDate = detailTaskDto.StartDate;
+                task.EndDate = detailTaskDto.EndDate; 
+                task.Duration = detailTaskDto.Duration;
+                task.IsUnscheduled = detailTaskDto.IsUnscheduled;
+                task.Name = detailTaskDto.Name;
+                task.ParentId = detailTaskDto.ParentId;
+                task.Type = detailTaskDto.Type;
+                task.Progress = detailTaskDto.Progress;
+                _db.Entry(task).State = System.Data.Entity.EntityState.Modified;
+                //AutoMapper.Mapper.Map(detailTaskDto, task);
             }
             return _db.SaveChanges() > 0;
         }

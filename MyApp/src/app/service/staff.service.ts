@@ -34,7 +34,7 @@ export class StaffService
   }
 
   async DeleteStaffByID(id:number){
-    let value = this.httpClient.delete(this.BASE_URL+"Staff/"+id);
+    let value = this.httpClient.delete(this.BASE_URL+"DeleteStaff/"+id);
     return await lastValueFrom(value) ;;
   }
   async UpdateStaffByID(id:number,staff:Staff){

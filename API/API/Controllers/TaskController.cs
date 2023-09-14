@@ -58,7 +58,7 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        public IHttpActionResult Task(int id,DetailTaskDto detailTaskDto)
+        public IHttpActionResult Task(int id,Task detailTaskDto)
         {
             var rs = _taskService.EditTask(id,detailTaskDto);
             if (rs)
