@@ -21,11 +21,9 @@ export class HomeComponent implements OnInit{
   ngOnInit(): void {
     this.staffService.GetAllStaff().then(
       res => {
-      debugger;
         this.staffs = res as Staff[];
       },
       err => {
-        debugger;
         console.log(err);
       }
     );

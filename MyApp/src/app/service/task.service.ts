@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { lastValueFrom } from "rxjs";
 import { Task } from "../entites/task.entity";
+import { TaskChart } from "../entites/taskchart.entity";
 @Injectable()
 export class TaskService
 {
@@ -42,4 +43,13 @@ export class TaskService
     let value = this.httpClient.delete(this.BASE_URL+"DeleteTask/"+id);
     return await lastValueFrom(value) ;
   }
+  async UpdateTaskChart(task:TaskChart){
+    let value = this.httpClient.put(this.BASE_URL+"UpdateTaskChart",task);
+    return await lastValueFrom(value) ;
+  }
+  async InsertTaskChart(task:TaskChart){
+    let value = this.httpClient.post(this.BASE_URL+"InsertTaskChart",task);
+    return await lastValueFrom(value) ;
+  }
+  
 }

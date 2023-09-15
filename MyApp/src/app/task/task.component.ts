@@ -48,7 +48,6 @@ export class TaskComponent implements OnInit {
   }
 
   selectChange(id: number = null) {
-    debugger;
     if (id != null) {
       this.GetTask();
     } else {

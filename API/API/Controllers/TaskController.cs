@@ -1,4 +1,5 @@
 ﻿using API.Models;
+using API.Models.Dto.Task;
 using API.Services;
 using API2.Models.Dto.Task;
 using System;
@@ -72,6 +73,27 @@ namespace API.Controllers
         {
             var rs = _taskService.DeleteTask(id);
             if (rs)
+            {
+                return Ok(rs);
+            }
+            return BadRequest();
+        }
+        [HttpPut]
+        public IHttpActionResult UpdateTaskChart(TaskChart ts)
+        {
+            var rs = _taskService.EditTaskChart(ts);
+            if (rs)
+            {
+                return Ok(rs);
+            }
+            return BadRequest();
+        }
+
+        [HttpPost]
+        public IHttpActionResult InsertTaskChart(TaskChart ts)
+        {
+            var rs = _taskService.CreateTaskChart(ts);
+            if (rs > 0)
             {
                 return Ok(rs);
             }
